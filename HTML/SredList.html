@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>スレッド一覧</title>
+</head>
+
+<body>
+	<div class="page">
+		<header>
+			<div id="title">
+				<hr>
+				<h3>スレッドをたてる</h3>
+			</div>
+			<script type="text/javascript">
+				// ①Web Storageの実装確認
+				if (typeof sessionStorage === 'undefined') {
+					window.alert("このブラウザはWeb Storage機能が実装されていません");
+				} else {
+					window.alert("このブラウザはWeb Storage機能を実装しています");
+
+					var storage = sessionStorage;
+
+					// ③sessionStorageへの格納
+					function setsessionStorage() {
+
+						var key = document.getElementById("textkey").value;
+						var value = document.getElementById("textdata").value;
+
+						// 値の入力チェック
+						if (key && value) {
+							storage.setItem(key, value);
+						}
+
+						// 変数の初期化
+						key = "";
+						value = "";
+
+						viewStorage();
+					}
+
+					// ③sessionStorageからのデータの取得と表示
+					function viewStorage() {
+						var list = document.getElementById("list")
+						while (list.firstChild) list.removeChild(list.firstChild);
+
+						// sessionStorageすべての情報の取得
+						for (var i = 0; i < storage.length; i++) {
+							var _key = storage.key(i);
+
+							// sessionStorageのキーと値を表示
+							var tr = document.createElement("tr");
+							var td1 = document.createElement("td");
+							var td2 = document.createElement("td");
+							list.appendChild(tr);
+							tr.appendChild(td1);
+							tr.appendChild(td2);
+							td1.innerHTML = _key;
+							td2.innerHTML = storage.getItem(_key);
+						}
+					}
+
+					// ④sessionStorageから削除
+					function removeStorage() {
+						var key = document.getElementById("textkey").value;
+
+						storage.removeItem(key);
+
+						// 変数の初期化
+						key = "";
+
+						viewStorage();
+					}
+
+					// ⑤sessionStorageからすべて削除
+					function removeallStorage() {
+						storage.clear();
+						viewStorage();
+					}
+
+				}
+			</script>
+
+		</header>
+		<section id="main">
+			スレッド名：<input id="textkey" type="text" /> 
+			名前：<input id="textdata" type="text" />
+			<button id="button" onclick="setsessionStorage()">作成</button>
+			<button id="button" onclick="removeStorage()">削除</button>
+			<button id="button" onclick="removeallStorage()">全て削除</button>
+			<br><hr><br>
+			<h2></h2>
+			<table border="1">
+				<h2>スレッド一覧</h2>
+				<tr>
+					<th>スレッド名</th>
+					<th>作成者</th>
+					<th>コメント数</th>
+				</tr>
+				<a href="makeSred"><tbody id="list"></tbody></a>
+				<tbody id="list">
+				</tbody>
+			</table>
+		</section>
+	</div>
+</body>
+
+</html>

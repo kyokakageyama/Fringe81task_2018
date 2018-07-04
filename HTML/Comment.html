@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8" />
+	<script src="index.js"></script>
+	<title>コメント入力</title>
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <hr>
+    <!--以下投稿用-->
+    <div class="sred">
+        
+        <div class="words">
+            <h3>コメントする</h3>
+            <form action="" method="post">
+                コメント：<input type="text" id="title" name="title">
+                <br>
+                名前：<input type="text" id="name" name="name">
+                <br>
+                <input type="button" id="post" value="コメントする">
+            </form>
+            <hr>
+
+            <input type="button" id="clear" value="コメントの削除">
+            <ul id="commnentList"></ul>
+            <script>
+                $(function() {
+                    
+                            //時間を返す関数
+                            function timeString(date) {
+                                return date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()+'';
+                            };
+                            if(localStorage.getItem('comment')) {
+                                $('#commnentList').html(localStorage.getItem('comment'));
+                            }
+                            
+                            //コメントの表示
+                            $('#post').click(function(){
+                                var post_title = $('<div/>').text($('#title').val()).html();
+                                var posts = $('#commnentList').html();
+                                var pos_name = $('<div/>').text($('#name').val()).html();
+                                posts = '<li>' + post_title + '<br>'+ pos_name + '  ' + timeString(new Date()) + ' </li>' + posts;
+                                $('#commnentList').html(posts);
+                                localStorage.setItem('comment', $('#commnentList').html());
+                            });
+                            $('#clear').click(function(){
+                                $('#commnentList').html('');
+                                localStorage.removeItem('comment');
+                            });
+                        });
+                
+                    </script>
+                </div>
+            </div>
+            <!---->
+            
+        </body>
+        </html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <script src="index.js"></script>
+    <title>スレッド画面</title>
+</head>
+
+<body>
+
+    <br>
+    <h3>コメントするには下記ををクリック</h3>
+    <a href="Sred.html">コメントページへ移動する</a>
+    <br>
+    <br>
+
+    <!--log-->
+    <TABLE width="400" border="1">
+        <TR>
+            <TD>
+                <script>
+                    $(function () {
+
+                        //時間を返す関数
+                        function timeString(date) {
+                            return date.getFullYear() + '/' + date.getMonth() + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + '';
+                        };
+                        if (localStorage.getItem('comment')) {
+                            $('#commnentList').html(localStorage.getItem('comment'));
+                        }
+
+                        //コメントの表示
+                        $('#post').click(function () {
+                            var post_title = $('<div/>').text($('#title').val()).html();
+                            var posts = $('#commnentList').html();
+                            var pos_name = $('<div/>').text($('#name').val()).html();
+                            posts = '<li>' + post_title + '<br>' + pos_name + '  ' + timeString(new Date()) + ' </li>' + posts;
+                            $('#commnentList').html(posts);
+                            $('#message').val('');
+                            localStorage.setItem('comment', $('#commnentList').html());
+                        });
+                        $('#clear').click(function () {
+                            $('#commnentList').html('');
+                            localStorage.removeItem('comment');
+                        });
+                    });
+
+                </script>
+                <ul id="commnentList">
+                    <hr>
+                </ul>
+                <!--res-->
+                <TABLE width="300" border="1">
+                    <TR>
+                        <TD>
+                            レス記事です。
+                        </TD>
+                    </TR>
+                </TABLE>
+                <!--res-->
+            </TD>
+        </TR>
+    </TABLE>
+    <BR>
+    <BR>
+    <!--log-->
+</body>
+
+</html>
